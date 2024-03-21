@@ -1,6 +1,5 @@
-# Convolutional Neural Network Financial Data
+# Applying Deep Learning Techniques (Financial Data)
 
-Applying CNN to the financial data - specifically I want to use recession indicators together with readily available information from yahoo finance, such as open, close, low, high, volume and other standard price metrics. Moreover information retrieved from FRED to model long-term trends using macroeconomic data. \\
+* Applying Deep Learning to financial data.
 
-The goal of the network is to apply feature engineering techniques learned from 'Advances in Financial Machin Learning' by Marcos López de Prado as well as theory obtained from 'Deep Learning' by Ian Goodfellow. 
-
+Setting up RESTful API, PostgreSQL together with Metabase to create a data pipeline that pulls API requests from Alpha Vantage (open source financial data). \
