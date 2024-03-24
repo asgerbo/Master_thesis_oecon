@@ -9,3 +9,5 @@ When database increases in size we might need to utilize TimescaleDB for efficie
 Later for Network visualization and intuitive understanding we can use Knime. 
 
 Tensorboard for continuous training evaluation
+
+![Mindmap](API/mindmap.jpg)
