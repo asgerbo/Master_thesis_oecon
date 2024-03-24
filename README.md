@@ -10,4 +10,6 @@ Later for Network visualization and intuitive understanding we can use Knime.
 
 Tensorboard for continuous training evaluation
 
+Below is a mindmap for the API and data pipeline; 
+
 ![Mindmap](API/mindmap.jpg)
