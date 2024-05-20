@@ -1,0 +1,220 @@
+import pandas as pd
+import numpy as np
+
+#### Brent ####
+brent = pd.read_csv('/Users/nadjos/Desktop/Uni/speciale/data/brent_filtered.csv')
+# Convert the 'Date' column to datetime
+brent['date'] = pd.to_datetime(brent['date'])
+# Interpolate missing values
+brent['value'].interpolate(method='linear', inplace=True)
+# Filter the data to start from 01/01/2004
+brent = brent[brent['date'] >= '2005-01-01']
+brent = brent[brent['date'] <= '2024-01-01']
+#length
+print(len(brent['value']))
+
+#### EU CPI ####
+eu_cpi = pd.read_csv('/Users/nadjos/Desktop/Uni/speciale/data/eu_cpi.csv', delimiter=';', header=0, names=['date', 'value'])
+# Convert the 'Date' column to datetime
+eu_cpi['date'] = pd.to_datetime(eu_cpi['date'])
+# Interpolate missing values
+eu_cpi['value'].interpolate(method='linear', inplace=True)
+# Filter the data to start from 01/01/2004
+eu_cpi = eu_cpi[eu_cpi['date'] >= '2005-01-01']
+eu_cpi = eu_cpi[eu_cpi['date'] <= '2024-01-01']
+#length
+print(len(eu_cpi['value']))
+
+#### EU MRO Rate ####
+eu_mro_rate = pd.read_csv('/Users/nadjos/Desktop/Uni/speciale/data/eu_mro_rate.csv', delimiter=';', header=0, names=['date', 'value'])
+# Convert the 'Date' column to datetime
+eu_mro_rate['date'] = pd.to_datetime(eu_mro_rate['date'])
+# Interpolate missing values
+eu_mro_rate['value'].interpolate(method='linear', inplace=True)
+# Filter the data to start from 01/01/2004
+eu_mro_rate = eu_mro_rate[eu_mro_rate['date'] >= '2005-01-01']
+eu_mro_rate = eu_mro_rate[eu_mro_rate['date'] <= '2024-01-01']
+#length
+print(len(eu_mro_rate['value']))
+
+#### EU Unemployment Rate ####
+eu_unemployment_rate = pd.read_csv('/Users/nadjos/Desktop/Uni/speciale/data/eu_unemployment_rate.csv', delimiter=';', header=0, names=['date', 'value'])
+# Convert the 'Date' column to datetime
+eu_unemployment_rate['date'] = pd.to_datetime(eu_unemployment_rate['date'])
+# Interpolate missing values
+eu_unemployment_rate['value'].interpolate(method='linear', inplace=True)
+# Filter the data to start from 01/01/2004
+eu_unemployment_rate = eu_unemployment_rate[eu_unemployment_rate['date'] >= '2005-01-01']
+eu_unemployment_rate = eu_unemployment_rate[eu_unemployment_rate['date'] <= '2024-01-01']
+#length
+print(len(eu_unemployment_rate['value']))
+
+#### EU Yield 3M ####
+eu_yield_3m = pd.read_csv('/Users/nadjos/Desktop/Uni/speciale/data/eu_yield_3m.csv', delimiter=';', header=0, names=['date', 'value'])
+# Convert the 'Date' column to datetime
+eu_yield_3m['date'] = pd.to_datetime(eu_yield_3m['date'])
+# Interpolate missing values
+eu_yield_3m['value'].interpolate(method='linear', inplace=True)
+# Filter the data to start from 01/01/2004
+eu_yield_3m = eu_yield_3m[eu_yield_3m['date'] >= '2005-01-01']
+eu_yield_3m = eu_yield_3m[eu_yield_3m['date'] <= '2024-01-01']
+#length
+print(len(eu_yield_3m['value']))
+
+#### EU Yield 10Y ####
+eu_yield_10y = pd.read_csv('/Users/nadjos/Desktop/Uni/speciale/data/eu_yield_10y.csv', delimiter=';', header=0, names=['date', 'value'])
+# Convert the 'Date' column to datetime
+eu_yield_10y['date'] = pd.to_datetime(eu_yield_10y['date'])
+# Interpolate missing values
+eu_yield_10y['value'].interpolate(method='linear', inplace=True)
+# Filter the data to start from 01/01/2004
+eu_yield_10y = eu_yield_10y[eu_yield_10y['date'] >= '2005-01-01']
+eu_yield_10y = eu_yield_10y[eu_yield_10y['date'] <= '2024-01-01']
+#length
+print(len(eu_yield_10y['value']))
+
+#### EU Yield 30Y ####
+eu_yield_30y = pd.read_csv('/Users/nadjos/Desktop/Uni/speciale/data/eu_yield_30y.csv', delimiter=';', header=0, names=['date', 'value'])
+# Convert the 'Date' column to datetime
+eu_yield_30y['date'] = pd.to_datetime(eu_yield_30y['date'])
+# Interpolate missing values
+eu_yield_30y['value'].interpolate(method='linear', inplace=True)
+# Filter the data to start from 01/01/2004
+eu_yield_30y = eu_yield_30y[eu_yield_30y['date'] >= '2005-01-01']
+eu_yield_30y = eu_yield_30y[eu_yield_30y['date'] <= '2024-01-01']
+#length
+print(len(eu_yield_30y['value']))
+
+#### EUR Stoxx VIX ####
+eur_stoxx_vix = pd.read_csv('/Users/nadjos/Desktop/Uni/speciale/data/eur_stoxx_vix.csv', delimiter=';', header=0, names=['date','ticker', 'value'])
+# Convert the 'Date' column to datetime
+eur_stoxx_vix['date'] = pd.to_datetime(eur_stoxx_vix['date'], dayfirst= True )
+# Interpolate missing values
+eur_stoxx_vix['value'].interpolate(method='linear', inplace=True)
+# Filter the data to start from 01/01/2004
+eur_stoxx_vix = eur_stoxx_vix[eur_stoxx_vix['date'] >= '2005-01-01']
+eur_stoxx_vix = eur_stoxx_vix[eur_stoxx_vix['date'] <= '2024-01-01']
+#length
+print(len(eur_stoxx_vix['value']))
+
+#### EUR Stoxx ####
+eur_stoxx = pd.read_csv('/Users/nadjos/Desktop/Uni/speciale/data/eur_stoxx.csv', header=0, names=['date', 'value'])
+# Convert the 'Date' column to datetime
+eur_stoxx['date'] = pd.to_datetime(eur_stoxx['date'].apply(lambda x: x[:10]), dayfirst= True)
+# Interpolate missing values
+eur_stoxx['value'].interpolate(method='linear', inplace=True)
+# Filter the data to start from 01/01/2004
+eur_stoxx = eur_stoxx[eur_stoxx['date'] >= '2005-01-01']
+eur_stoxx = eur_stoxx[eur_stoxx['date'] <= '2024-01-01']
+#length
+print(len(eur_stoxx['value']))
+
+#### US CPI ####
+us_cpi = pd.read_csv('/Users/nadjos/Desktop/Uni/speciale/data/us_cpi.csv', header=0, names=['date', 'value'])
+# Convert the 'Date' column to datetime
+us_cpi['date'] = pd.to_datetime(us_cpi['date'])
+# Interpolate missing values
+us_cpi['value'].interpolate(method='linear', inplace=True)
+# Filter the data to start from 01/01/2004
+us_cpi = us_cpi[us_cpi['date'] >= '2005-01-01']
+us_cpi = us_cpi[us_cpi['date'] <= '2024-01-01']
+#length
+print(len(us_cpi['value']))
+
+#### US Federal Fund Rate ####
+us_federal_fund_rate = pd.read_csv('/Users/nadjos/Desktop/Uni/speciale/data/us_federal_funds_rate_filtered.csv', header=0, names=['date', 'value'])
+# Convert the 'Date' column to datetime
+us_federal_fund_rate['date'] = pd.to_datetime(us_federal_fund_rate['date'])
+# Interpolate missing values
+us_federal_fund_rate['value'].interpolate(method='linear', inplace=True)
+# Filter the data to start from 01/01/2004
+us_federal_fund_rate = us_federal_fund_rate[us_federal_fund_rate['date'] >= '2005-01-01']
+us_federal_fund_rate = us_federal_fund_rate[us_federal_fund_rate['date'] <= '2024-01-01']
+#length
+print(len(us_federal_fund_rate['value']))
+
+#### US S&P 500 ####
+us_sp500 = pd.read_csv('/Users/nadjos/Desktop/Uni/speciale/data/us_sp500_filtered.csv', header=0, names=['date','open', 'high','low', 'close', 'volume'])
+# Convert the 'Date' column to datetime
+us_sp500['date'] = pd.to_datetime(us_sp500['date'])
+# Interpolate missing values
+us_sp500['close'].interpolate(method='linear', inplace=True)
+# Filter the data to start from 01/01/2004
+us_sp500 = us_sp500[us_sp500['date'] >= '2005-01-01']
+us_sp500 = us_sp500[us_sp500['date'] <= '2024-01-01']
+#length
+print(len(us_sp500['close']))
+
+#### US S&P 500 VIX ####
+us_sp500_vix = pd.read_csv('/Users/nadjos/Desktop/Uni/speciale/data/us_sp_500_vix.csv', header=0, names=['date','open', 'high','low', 'close'], na_values='.')
+# Convert the 'Date' column to datetime
+us_sp500_vix['date'] = pd.to_datetime(us_sp500_vix['date'])
+# Replace "." with NaN
+us_sp500_vix['close'].replace(".", np.nan, inplace=True)
+# Interpolate missing values
+us_sp500_vix['close'].interpolate(method='linear', inplace=True)
+# Filter the data to start from 01/01/2004
+us_sp500_vix = us_sp500_vix[us_sp500_vix['date'] >= '2005-01-01']
+us_sp500_vix = us_sp500_vix[us_sp500_vix['date'] <= '2024-01-01']
+#length
+print(len(us_sp500_vix['close']))
+
+#### US Treasury Yield 3M ####
+us_treasury_yield_3m = pd.read_csv('/Users/nadjos/Desktop/Uni/speciale/data/us_treasury_yield_3m_filtered.csv', header=0, names=['date', 'value'])
+# Convert the 'Date' column to datetime
+us_treasury_yield_3m['date'] = pd.to_datetime(us_treasury_yield_3m['date'])
+# Interpolate missing values
+us_treasury_yield_3m['value'].interpolate(method='linear', inplace=True)
+# Filter the data to start from 01/01/2004
+us_treasury_yield_3m = us_treasury_yield_3m[us_treasury_yield_3m['date'] >= '2005-01-01']
+us_treasury_yield_3m = us_treasury_yield_3m[us_treasury_yield_3m['date'] <= '2024-01-01']
+#length
+print(len(us_treasury_yield_3m['value']))
+
+#### US Treasury Yield 10Y ####
+us_treasury_yield_10y = pd.read_csv('/Users/nadjos/Desktop/Uni/speciale/data/us_treasury_yield_10y_filtered.csv', header=0, names=['date', 'value'])
+# Convert the 'Date' column to datetime
+us_treasury_yield_10y['date'] = pd.to_datetime(us_treasury_yield_10y['date'])
+# Interpolate missing values
+us_treasury_yield_10y['value'].interpolate(method='linear', inplace=True)
+# Filter the data to start from 01/01/2004
+us_treasury_yield_10y = us_treasury_yield_10y[us_treasury_yield_10y['date'] >= '2005-01-01']
+us_treasury_yield_10y = us_treasury_yield_10y[us_treasury_yield_10y['date'] <= '2024-01-01']
+#length
+print(len(us_treasury_yield_10y['value']))
+
+#### US Treasury Yield 30Y ####
+us_treasury_yield_30y = pd.read_csv('/Users/nadjos/Desktop/Uni/speciale/data/us_treasury_yield_30y_filtered.csv', header=0, names=['date', 'value'])
+# Convert the 'Date' column to datetime
+us_treasury_yield_30y['date'] = pd.to_datetime(us_treasury_yield_30y['date'])
+# Interpolate missing values
+us_treasury_yield_30y['value'].interpolate(method='linear', inplace=True)
+# Filter the data to start from 01/01/2004
+us_treasury_yield_30y = us_treasury_yield_30y[us_treasury_yield_30y['date'] >= '2005-01-01']
+us_treasury_yield_30y = us_treasury_yield_30y[us_treasury_yield_30y['date'] <= '2024-01-01']
+#length
+print(len(us_treasury_yield_30y['value']))
+
+#### US Unemployment ####
+us_unemployment = pd.read_csv('/Users/nadjos/Desktop/Uni/speciale/data/us_unemployment_filtered.csv', header=0, names=['date', 'value'])
+# Convert the 'Date' column to datetime
+us_unemployment['date'] = pd.to_datetime(us_unemployment['date'])
+# Interpolate missing values
+us_unemployment['value'].interpolate(method='linear', inplace=True)
+# Filter the data to start from 01/01/2004
+us_unemployment = us_unemployment[us_unemployment['date'] >= '2005-01-01']
+us_unemployment = us_unemployment[us_unemployment['date'] <= '2024-01-01']
+#length
+print(len(us_unemployment['value']))
+
+#### USD to EUR Exchange Rate ####
+usd_eur_exchange = pd.read_csv('/Users/nadjos/Desktop/Uni/speciale/data/usd_eur_exchange.csv', header=0, names=['date', 'value'])
+# Convert the 'Date' column to datetime
+usd_eur_exchange['date'] = pd.to_datetime(usd_eur_exchange['date'])
+# Interpolate missing values
+usd_eur_exchange['value'].interpolate(method='linear', inplace=True)
+# Filter the data to start from 01/01/2004
+usd_eur_exchange = usd_eur_exchange[usd_eur_exchange['date'] >= '2005-01-01']
+usd_eur_exchange = usd_eur_exchange[usd_eur_exchange['date'] <= '2024-01-01']
+#length
+print(len(usd_eur_exchange['value']))
