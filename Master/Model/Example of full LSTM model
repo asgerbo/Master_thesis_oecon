@@ -1,0 +1,103 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from pandas import read_csv
+import math
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Dropout
+from tensorflow.keras.layers import LSTM
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import train_test_split
+
+dataframe = read_csv('/Users/nadjos/Downloads/all_data_no_dates.csv', engine='python')
+dataset = dataframe.values
+dataset = dataset.astype('float32')
+
+# cut off first 5 rows (data points)
+dataset = dataset[5:]
+
+#removes the first column - therby the row value column
+dataset = dataset[:, 1:]
+
+# normalize the dataset - makes the range for all variables to be between 0 and 1 adn then applies it to the dataset
+scaler = MinMaxScaler(feature_range=(0, 1))
+dataset = scaler.fit_transform(dataset)
+
+#Set the train size
+train_size = int(len(dataset) * 0.8)
+test_size = len(dataset) - train_size
+#assign 80 percent of the first part to train and 20 last percent to test
+train, test = dataset[0:train_size, :], dataset[train_size:len(dataset), :]
+
+# convert an array of values into a dataset matrix
+
+def create_dataset(dataset, look_back=1):
+    dataX, dataY = [], []
+    for i in range(len(dataset)-look_back-1):
+        a = dataset[i:(i+look_back), :]
+        dataX.append(a)
+        dataY.append(dataset[i + look_back, 0])
+    return np.array(dataX), np.array(dataY)
+
+
+look_back = 5
+trainX, trainY = create_dataset(train, look_back)
+testX, testY = create_dataset(test, look_back)
+
+
+# reshape input to be [samples, time steps, features] - adds the 5(look_back) time steps for each datapoint given 8 variables
+trainX = np.reshape(trainX, (trainX.shape[0], look_back, 8))
+testX = np.reshape(testX, (testX.shape[0], look_back, 8))
+
+
+
+# create and fit the LSTM network
+model = Sequential()
+model.add(LSTM(50, input_shape=(look_back, 8)))
+model.add(Dense(1))
+model.compile(loss='mean_squared_error', optimizer='adam')
+history = model.fit(trainX, trainY, epochs=30, batch_size=16, verbose=1)
+
+import matplotlib.pyplot as plt
+# Plot training loss
+plt.figure(figsize=(10, 6))
+plt.plot(history.history['loss'])
+plt.title('Model Loss Over Epochs')
+plt.ylabel('Loss')
+plt.xlabel('Epoch')
+plt.legend(['Train'], loc='upper right')
+plt.show()
+
+
+# Make predictions
+trainPredict = model.predict(trainX)
+testPredict = model.predict(testX)
+
+# Inverse transform predictions to original scale
+trainPredict_inverse = scaler.inverse_transform(np.concatenate((trainPredict, trainX[:, -1, 1:]), axis=1))[:, 0]
+trainY_inverse = scaler.inverse_transform(np.concatenate((trainY.reshape(-1, 1), trainX[:, -1, 1:]), axis=1))[:, 0]
+testPredict_inverse = scaler.inverse_transform(np.concatenate((testPredict, testX[:, -1, 1:]), axis=1))[:, 0]
+testY_inverse = scaler.inverse_transform(np.concatenate((testY.reshape(-1, 1), testX[:, -1, 1:]), axis=1))[:, 0]
+
+# Plot predictions vs actual values for training data
+plt.figure(figsize=(10, 6))
+plt.plot(trainY_inverse, label='Actual Train Data')
+plt.plot(trainPredict_inverse, label='Predicted Train Data')
+plt.title('Training Data - Actual vs Predicted')
+plt.xlabel('Time')
+plt.ylabel('Value')
+plt.legend()
+plt.show()
+
+# Plot predictions vs actual values for testing data
+plt.figure(figsize=(10, 6))
+plt.plot(testY_inverse, label='Actual Test Data')
+plt.plot(testPredict_inverse, label='Predicted Test Data')
+plt.title('Testing Data - Actual vs Predicted')
+plt.xlabel('Time')
+plt.ylabel('Value')
+plt.legend()
+plt.show()
