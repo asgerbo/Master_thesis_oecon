@@ -1,0 +1,52 @@
+import pandas as pd
+import ta
+import numpy as np
+import pandas as pd
+
+
+####### Data setup  #######
+
+# load csv and name value variable
+df = pd.read_csv('/Users/nadjos/Desktop/Uni/speciale/data/usd_eur_exchange.csv', header=0, names=['date', 'usd_eur_exchange'])
+df['date'] = pd.to_datetime(df['date'])
+df = df.sort_values(by='date')
+# remove missing values
+df = df.replace('.', np.nan).dropna()
+# Filter the data to start from 01/01/2004
+df = df[df['date'] >= '2004-01-01']
+df = df[df['date'] <= '2024-01-01']
+df['usd_eur_exchange'] = pd.to_numeric(df['usd_eur_exchange'], errors='coerce')
+
+####### Lagging indicators #######
+
+# Simple Moving Averages, 10, 20, 50.
+df['SMA_10'] = ta.trend.sma_indicator(df['usd_eur_exchange'], window=10)
+df['SMA_20'] = ta.trend.sma_indicator(df['usd_eur_exchange'], window=20)
+df['SMA_50'] = ta.trend.sma_indicator(df['usd_eur_exchange'], window=50)
+
+# Exponential Moving Average, 20
+df['EMA_20'] = ta.trend.ema_indicator(df['usd_eur_exchange'], window=20)
+
+
+# MACD, 12 and 24
+df['MACD_12'] = ta.trend.macd(df['usd_eur_exchange'], window_slow=26, window_fast=12)
+df['MACD_Signal_12'] = ta.trend.macd_signal(df['usd_eur_exchange'], window_slow=26, window_fast=12)
+df['MACD_Diff_12'] = ta.trend.macd_diff(df['usd_eur_exchange'], window_slow=26, window_fast=12)
+
+df['MACD_24'] = ta.trend.macd(df['usd_eur_exchange'], window_slow=52, window_fast=24)
+df['MACD_Signal_24'] = ta.trend.macd_signal(df['usd_eur_exchange'], window_slow=52, window_fast=24)
+df['MACD_Diff_24'] = ta.trend.macd_diff(df['usd_eur_exchange'], window_slow=52, window_fast=24)
+
+####### leading indicators #######
+
+# Relative Strength Index
+df['RSI'] = ta.momentum.rsi(df['usd_eur_exchange'], window=14)
+
+
+####### volatility indicators #######
+
+# Bollinger Bands
+bb_indicator = ta.volatility.BollingerBands(df['usd_eur_exchange'], window=20, window_dev=2)
+df['BB_High'] = bb_indicator.bollinger_hband()
+df['BB_Low'] = bb_indicator.bollinger_lband()
+df['BB_Middle'] = bb_indicator.bollinger_mavg()
