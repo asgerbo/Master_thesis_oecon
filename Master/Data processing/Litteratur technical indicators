@@ -27,22 +27,13 @@ usd_eur_finance = usd_eur_finance.sort_values(by='date')
 usd_eur_finance = usd_eur_finance.replace('.', np.nan).dropna()
 # Filter the data to start from 01/01/2004
 usd_eur_finance = usd_eur_finance[usd_eur_finance['date'] >= '2004-01-01']
-usd_eur_finance = usd_eur_finance[usd_eur_finance['date'] <= '2014-11-23']
+usd_eur_finance = usd_eur_finance[usd_eur_finance['date'] <= '2024-01-01']
 
-# load csv and name value variable
-usd_eur_alpha = pd.read_csv('/Users/nadjos/Downloads/usd_eur_filtered.csv', header=0, names=['date', 'open','high', 'low' ,'close'])
-usd_eur_alpha['date'] = pd.to_datetime(usd_eur_alpha['date'])
 
-usd_eur_alpha = usd_eur_alpha.sort_values(by='date')
-# remove missing values
-usd_eur_alpha = usd_eur_alpha.replace('.', np.nan).dropna()
-# Filter the data to start from 01/01/2004
-usd_eur_alpha = usd_eur_alpha[usd_eur_alpha['date'] >= '2014-11-24']
-usd_eur_alpha = usd_eur_alpha[usd_eur_alpha['date'] <= '2024-01-01']
 
 
 # Margin the to timeseries
-combined_usd_eur = pd.concat([ usd_eur_alpha, usd_eur_finance], ignore_index=True)
+combined_usd_eur = usd_eur_finance
 # Sort
 combined_usd_eur = combined_usd_eur.sort_values(by='date').reset_index(drop=True)
 
