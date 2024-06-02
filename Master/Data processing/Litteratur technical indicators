@@ -3,7 +3,7 @@ import ta
 import numpy as np
 import pandas as pd
 
-# load csv and name value variable
+# load csv
 df = pd.read_csv('/Users/nadjos/Desktop/Uni/speciale/data/usd_eur_exchange.csv', header=0, names=['date', 'usd_eur_exchange'])
 
 df['date'] = pd.to_datetime(df['date'])
